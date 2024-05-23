@@ -16,8 +16,22 @@ export const useOperationStore = defineStore("operationStore", {
     },
   },
   actions: {
+    async getOperationsMetadata($api) {
+      try {
+        console.error("Fetching operations with getOperationsMetaData($api)");
+        const response = await $api.get("/api/v2/operations");
+        // TODO: Sort operations
+        for (const operation of response.data) {
+          this.operations[operation.id] = operation;
+        }
+      } catch (error) {
+        console.error("Error fetching operations", error);
+      }
+    },
+
     async getOperations($api) {
       try {
+        console.error("Fetching operations with getOperations($api)");
         const response = await $api.get("/api/v2/operations");
         // TODO: Sort operations
         for (const operation of response.data) {
